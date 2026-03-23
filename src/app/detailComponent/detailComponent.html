@@ -1,0 +1,69 @@
+<main class="container-fluid py-4">
+  @if (player(); as p) {
+  <div class="row g-4 justify-content-center" style="width: 90%; margin: 0 auto;">
+    <div class="col-lg-8">
+      <div class="d-flex flex-column gap-3">
+        <div class="row g-3">
+          <div class="col-md-5">
+            <img [src]="p.img" [alt]="p.nombre" class="img-fluid rounded-3 custom-height-img w-100 object-fit-cover" 
+            style="object-position: top;" >
+          </div>
+          <div class="col-md-7">
+            <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
+              <h2 class="fw-bold">{{ p.nombre }}</h2>
+              <p><strong>Equipo:</strong> {{ p.equipo }}</p>
+              <p><strong>Posición:</strong> {{ p.posicion }}</p>
+              <p><strong>Altura:</strong> {{ p.altura }}</p>
+              <p><strong>Edad:</strong> {{ p.edad }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
+              <h2 class="fw-bold">El Míster</h2>
+              <p><strong>Nombre:</strong> Alex Sabater</p>
+              <p><strong>Edad:</strong> 33</p>
+              <p><strong>Ocupación:</strong> Director técnico deportivo</p>
+              <p><strong>Objetivos:</strong> Acceder a datos de jugadores</p>
+              <button class="btn btn-custom mt-3 align-self-center">
+                Contactar con el agente
+              </button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="custom-card p-4 h-100">
+              <h2 class="fw-bold" style="color: #e69520;">Promedio de la temporada</h2>
+              
+              <div class="stat-row">
+                <span>Puntos por partido (PPP)</span>
+                <span class="stat-badge">{{ p.pPP }}</span>
+              </div>
+              <div class="stat-row">
+                <span>Rebotes por partido (RPP)</span>
+                <span class="stat-badge">{{ p.rPP }}</span>
+              </div>
+              <div class="stat-row">
+                <span>Asistencias por partido (APP)</span>
+                <span class="stat-badge">{{ p.aPP }}</span>
+              </div>
+              <div class="stat-row border-0">
+                <span>Porcentaje Tiros de Campo (%TC)</span>
+                <span class="stat-badge">{{ p.porcentajeTiros }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <app-media [player]="p" class="rounded-3 overflow-hidden d-block"></app-media>
+    </div>
+
+  </div>
+  } @else {
+  <div class="text-center py-5">
+    <p class="lead">Jugador no encontrado.</p>
+  </div>
+  }
+</main>

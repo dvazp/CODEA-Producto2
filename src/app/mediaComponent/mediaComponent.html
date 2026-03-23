@@ -1,0 +1,29 @@
+<div class="videos-container">
+  <div *ngFor="let jugador of (player ? [player] : jugadores)" class="player-video-section">
+    <div *ngIf="getVideoForPlayer(jugador.nombre) as video" class="video-item">
+      <div class="video-container">
+        <vg-player>
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+
+          <video [vgMedia]="$any(media)" #media preload="auto" crossorigin>
+            <source [src]="video.ruta" type="video/mp4" />
+          </video>
+        </vg-player>
+      </div>
+    </div>
+  </div>
+</div>

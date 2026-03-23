@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm pb-3 mb-4" style="background-color: #F2F3F4;">
+  <div class="container-fluid w-75">
+
+    <a class="codea-logo fw-bold self-align-start" routerLink="/">
+      CODEA Basket Tech
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      
+      @if (isHome()) {
+        <div class="search-group d-flex align-items-center ms-auto gap-3">
+            <input 
+                type="text" 
+                class="form-control custom-search-input" 
+                placeholder="Buscar..." 
+                [value]="searchText()"
+                (input)="searchText.set($any($event.target).value)"
+            >
+            <div class="dropdown">
+                <button 
+                class="btn dropdown-toggle filter-selector-btn" 
+                type="button" 
+                data-bs-toggle="dropdown" 
+                aria-expanded="false"
+                >
+                {{ filterField() | label }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                <li><button class="dropdown-item" (click)="filterField.set('Nombre')">{{ 'Nombre' | label }}</button></li>
+                <li><button class="dropdown-item" (click)="filterField.set('Equipo')">{{ 'Equipo' | label }}</button></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item" (click)="filterField.set('Edad')">{{ 'Edad' | label }}</button></li>
+                <li><button class="dropdown-item" (click)="filterField.set('Altura')">{{ 'Altura' | label }}</button></li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button class="btn dropdown-toggle filter-selector-btn" type="button" data-bs-toggle="dropdown">
+                Filtrar por posición
+                </button>
+                <ul class="dropdown-menu shadow border-0">
+                <li><button class="dropdown-item" (click)="searchText.set('base'); filterField.set('Posición')">Bases</button></li>
+                <li><button class="dropdown-item" (click)="searchText.set('escolta'); filterField.set('Posición')">Escoltas</button></li>
+                <li><button class="dropdown-item" (click)="searchText.set('alero'); filterField.set('Posición')">Aleros</button></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item text-danger" (click)="clearFilters()">Ver todos</button></li>
+                </ul>
+            </div>
+        </div>
+      } @else {
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link fw-bold" routerLink="/">
+              <i class="bi bi-arrow-left"></i> Volver al listado
+            </a>
+          </li>
+        </ul>
+      }
+      <ul class="navbar-nav ms-3 border-start ps-3">
+        <li class="nav-item"><a class="nav-link" routerLink="/">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/equipo">Equipo</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/club">Club</a></li>
+      </ul>
+
+    </div>
+  </div>
+</nav>

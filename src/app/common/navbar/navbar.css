@@ -1,0 +1,87 @@
+:root {
+  --codea-purple: #7B42F6;
+  --codea-orange: #e69520;
+  --codea-bg: #F2F3F4;
+}
+
+.navbar-nav .nav-link {
+  color: #7B42F6 !important;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #e69520 !important;
+}
+
+.codea-logo {
+  color: #7B42F6;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.codea-logo:hover {
+  color: #e69520;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Contenedor que une el input y el filtro */
+.search-group {
+  border-bottom: 2px solid rgba(123, 66, 246, 0.5);
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.search-group:focus-within {
+  border-color: #e69520; /* Color naranja al escribir */
+}
+
+/* Estilo del Input */
+.custom-search-input {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #7B42F6 !important;
+  font-weight: bold;
+  font-size: 16px;
+  width: 150px;
+  padding: 8px 10px;
+}
+
+.custom-search-input::placeholder {
+  color: rgba(123, 66, 246, 0.5);
+}
+
+/* Botón del selector de filtro */
+.filter-selector-btn {
+  border: none !important;
+  color: #7B42F6 !important;
+  font-weight: bold;
+  font-size: 14px;
+  background: transparent !important;
+  padding: 0 10px;
+}
+
+.filter-selector-btn:hover {
+  color: #e69520 !important;
+}
+
+/* Estilo de los items del menú */
+.dropdown-item {
+  color: #7B42F6 !important;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa !important;
+  color: #e69520 !important;
+}
+
+/* Eliminar la flecha por defecto de Bootstrap si quieres (opcional) */
+.filter-selector-btn::after {
+  margin-left: 0.5em;
+  vertical-align: 0.255em;
+}
