@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, onSnapshot, query } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot, query, setDoc, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -29,5 +29,23 @@ export class JugadoresService {
       );
       return () => unsubscribe(); // Desuscribirse al observable cuando el componente se destruya (por lo que sea)
     });
+  }
+
+  // Añade un nuevo jugador a la colección 'jugadores'
+  addJugador(jugador: any): Promise<any> {
+    const jugadorDocRef = doc(this.firestore, 'jugadores', jugador.nombre);
+        return setDoc(jugadorDocRef, jugador);
+  }
+
+  // Elimina un jugador por id
+  deleteJugador(id: string): Promise<void> {
+    const docRef = doc(this.firestore, 'jugadores', id);
+    return deleteDoc(docRef);
+  }
+
+  // Actualiza un jugador por id con los campos proporcionados
+  updateJugador(id: string, data: Partial<any>): Promise<void> {
+    const docRef = doc(this.firestore, 'jugadores', id);
+    return updateDoc(docRef, data);
   }
 }

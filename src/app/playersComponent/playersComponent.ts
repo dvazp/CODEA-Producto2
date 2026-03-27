@@ -5,16 +5,18 @@ import { PlayerFilterPipe } from '../common/pipes/player-filter.pipe';
 import { searchTextSignal, filterFieldSignal, PlayerFilterField } from '../common/state/search-state';
 import { JugadoresService } from "../common/datos/services/jugadoresService";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { AddPlayerComponent } from '../addPlayerComponent/addPlayerComponent';
 
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [CommonModule, RouterLink, PlayerFilterPipe],
+  imports: [CommonModule, RouterLink, PlayerFilterPipe, AddPlayerComponent],
   templateUrl: './playersComponent.html',
   styleUrl: './playersComponent.css'
 })
 export class PlayersComponent {
   protected readonly title = signal('CODEA - Jugadores');
+  showAdd = signal(false);
   
   private jugadoresService = inject(JugadoresService);
   readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
@@ -31,6 +33,10 @@ export class PlayersComponent {
 
   selectPlayer(player: any): void {
     this.selectedPlayer = player;
+  }
+
+  toggleShowAdd(): void {
+    this.showAdd.set(!this.showAdd());
   }
 
   constructor() {

@@ -26,9 +26,16 @@
               <p><strong>Edad:</strong> 33</p>
               <p><strong>Ocupación:</strong> Director técnico deportivo</p>
               <p><strong>Objetivos:</strong> Acceder a datos de jugadores</p>
-              <button class="btn btn-custom mt-3 align-self-center">
-                Contactar con el agente
-              </button>
+              <div class="d-flex flex-row gap-2 mt-3">
+                <button class="btn btn-custom mt-3 align-self-center"
+                  (click)="deletePlayer(p)">
+                  Eliminar jugador
+                </button>
+                <button class="btn btn-custom mt-3 align-self-center"
+                  (click)="toggleShowEdit()">
+                  Editar jugador
+                </button>
+              </div>
             </div>
           </div>
           <div class="col-md-6">
@@ -67,3 +74,4 @@
   </div>
   }
 </main>
+<app-add-player *ngIf="showEdit()" [player]="player()" (close)="toggleShowEdit()"></app-add-player>
