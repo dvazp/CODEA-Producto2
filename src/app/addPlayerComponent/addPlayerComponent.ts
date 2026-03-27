@@ -14,7 +14,6 @@ export class AddPlayerComponent {
   @Output() close = new EventEmitter<void>();
   @Input() set player(value: any) {
     if (value) {
-      // clone to avoid mutating parent object
       this.jugador = { ...value };
     } else {
       this.jugador = { nombre: '', img: '', vid: '', altura: '', edad: '', equipo: '', posicion: '', aPP: '', pPP: '', rPP: '', porcentajeTiros: '' };
