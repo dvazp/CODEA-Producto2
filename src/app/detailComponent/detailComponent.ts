@@ -1,4 +1,4 @@
-import { Component, signal, inject } from "@angular/core";
+import { Component, computed, inject } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { JugadoresService } from "../common/datos/services/jugadoresService";
@@ -26,23 +26,19 @@ interface Player {
   styleUrl: './detailComponent.css'
 })
 export class DetailComponent {
-  protected readonly title = signal('CODEA-Producto1');
   private jugadoresService = inject(JugadoresService);
-  readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
-  readonly player = signal<Player | undefined>(undefined);
   private route = inject(ActivatedRoute);
 
-  constructor() {
-    console.log('DetailComponent initialized with title:', this.title());
+  readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
+  private routeParams = toSignal(this.route.paramMap);
 
-    this.route.paramMap.subscribe(params => {
-      const nombre = params.get('nombre');
-      if (nombre) {
-        const found = this.players().find(j => j.nombre === nombre);
-        this.player.set(found as Player | undefined);
-      } else {
-        this.player.set(undefined);
-      }
-    });
+  readonly player = computed(() => {
+    const nombre = this.routeParams()?.get('nombre');
+    if (!nombre) return undefined;
+    
+    return this.players().find(j => j.nombre === nombre) as Player | undefined;
+  });
+
+  constructor() {
   }
 }

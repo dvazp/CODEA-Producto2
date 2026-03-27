@@ -1,4 +1,4 @@
-<div class="container-fluid px-5">
+<div class="container-fluid px-5 pb-5">
   <div *ngIf="players().length > 0; else noPlayers" 
        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
     <div class="col" *ngFor="let jugador of players() | playerFilter:searchText:filterField">

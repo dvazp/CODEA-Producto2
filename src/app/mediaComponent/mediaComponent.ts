@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { VgCoreModule } from '@videogular/ngx-videogular/core';
@@ -6,8 +6,8 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 
-import { infoJugadores } from '../common/datos/infoJugadores';
-import { infoVideos } from '../common/datos/infoVideos';
+import { JugadoresService } from "../common/datos/services/jugadoresService";
+import { toSignal } from "@angular/core/rxjs-interop";
 
 interface Player {
   nombre: string;
@@ -26,7 +26,6 @@ interface Player {
   selector: 'app-media',
   standalone: true,
   imports: [
-
     CommonModule,
     VgCoreModule,
     VgControlsModule,
@@ -38,10 +37,13 @@ interface Player {
 })
 export class MediaComponent {
   @Input() player?: Player;
-  jugadores = infoJugadores;
-  videos = infoVideos;
+
+  private jugadoresService = inject(JugadoresService);
+  readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
   
-  getVideoForPlayer(jugadorNombre: string) {
-    return this.videos.find(video => video.nombre === jugadorNombre);
-  }
+  readonly videoSrc = computed(() => {
+    console.log('Calculando video para:', this.player?.nombre);
+    const found = this.players().find(j => j.nombre === this.player?.nombre);
+    return found?.vid || '';
+  });
 }
