@@ -1,8 +1,9 @@
 import { Component, signal, inject } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { infoJugadores } from "../common/datos/infoJugadores";
+import { JugadoresService } from "../common/datos/services/jugadoresService";
 import { MediaComponent } from '../mediaComponent/mediaComponent';
+import { toSignal } from "@angular/core/rxjs-interop";
 
 interface Player {
   nombre: string;
@@ -26,6 +27,8 @@ interface Player {
 })
 export class DetailComponent {
   protected readonly title = signal('CODEA-Producto1');
+  private jugadoresService = inject(JugadoresService);
+  readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
   readonly player = signal<Player | undefined>(undefined);
   private route = inject(ActivatedRoute);
 
@@ -35,7 +38,7 @@ export class DetailComponent {
     this.route.paramMap.subscribe(params => {
       const nombre = params.get('nombre');
       if (nombre) {
-        const found = infoJugadores.find(j => j.nombre === nombre);
+        const found = this.players().find(j => j.nombre === nombre);
         this.player.set(found as Player | undefined);
       } else {
         this.player.set(undefined);

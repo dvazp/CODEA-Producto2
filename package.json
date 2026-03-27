@@ -4,7 +4,6 @@
     "hoistingLimits": "workspaces",
     "legacy-peer-deps": true
   },
-  
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -19,11 +18,14 @@
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
+    "@angular/fire": "^20.0.1",
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
     "@videogular/ngx-videogular": "^20.0.0",
     "bootstrap": "^5.3.8",
+    "firebase": "^12.11.0",
+    "firebase-admin": "^13.7.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
