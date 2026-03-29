@@ -2,7 +2,7 @@ import { Component, inject, signal } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PlayerFilterPipe } from '../common/pipes/player-filter.pipe';
-import { searchTextSignal, filterFieldSignal, PlayerFilterField } from '../common/state/search-state';
+import { searchTextSignal, filterFieldSignal, PlayerFilterField, showAddSignal } from '../common/state/search-state';
 import { JugadoresService } from "../common/datos/services/jugadoresService";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { AddPlayerComponent } from '../addPlayerComponent/addPlayerComponent';
@@ -16,7 +16,7 @@ import { AddPlayerComponent } from '../addPlayerComponent/addPlayerComponent';
 })
 export class PlayersComponent {
   protected readonly title = signal('CODEA - Jugadores');
-  showAdd = signal(false);
+  readonly showAdd = showAddSignal;
   
   private jugadoresService = inject(JugadoresService);
   readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
@@ -35,8 +35,20 @@ export class PlayersComponent {
     this.selectedPlayer = player;
   }
 
-  toggleShowAdd(): void {
-    this.showAdd.set(!this.showAdd());
+  toggleShowAdd(player: any = null): void {
+    this.selectPlayer = player;
+    showAddSignal.set(!showAddSignal());
+  }
+
+  async borrar(id:string){
+    if(confirm('Quieres eliminar el jugador?')){
+      try {
+        await this.jugadoresService.deleteJugador(id);
+        console.log('Jugador eliminado');
+      }catch(err){
+        console.error('Error al borrar: ',err);
+      }
+    }
   }
 
   constructor() {

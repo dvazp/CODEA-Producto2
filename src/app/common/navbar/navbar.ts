@@ -1,14 +1,14 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { Router, NavigationEnd, RouterLink } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { searchTextSignal, filterFieldSignal } from '../state/search-state';
+import { searchTextSignal, filterFieldSignal, showAddSignal } from '../state/search-state';
 import { LabelPipe } from '../pipes/label.pipe';
 
 @Component({
   selector: "navbar",
   standalone: true,
-    imports: [RouterLink, LabelPipe],
+  imports: [RouterLink, LabelPipe],
   templateUrl: "./navbar.html",
   styleUrl: "./navbar.css",
 })
@@ -30,5 +30,11 @@ export class Navbar {
         clearFilters(): void {
             this.searchText.set('');
             this.filterField.set('Nombre');
+        }
+        crearDesdeNav(){
+            showAddSignal.set(true);
+            if(!this.isHome()){
+                this.router.navigate(['/']);
+            }
         }
 }
