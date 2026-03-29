@@ -37,15 +37,15 @@ export class AddPlayerComponent {
       const payload: any = {
         nombre: this.jugador.nombre.trim(),
         img: this.jugador.img?.trim() || '',
-        vid: this.jugador.vid?.trim(),
-        altura: this.jugador.altura,
-        edad: this.jugador.edad,
-        equipo: this.jugador.equipo,
-        posicion: this.jugador.posicion,
-        aPP: this.jugador.aPP,
-        pPP: this.jugador.pPP,
-        rPP: this.jugador.rPP,
-        porcentajeTiros: this.jugador.porcentajeTiros
+        vid: this.jugador.vid?.trim() || '',
+        altura: this.jugador.altura || '',
+        edad: this.jugador.edad || '',
+        equipo: this.jugador.equipo || '',
+        posicion: this.jugador.posicion || '',
+        aPP: this.jugador.aPP || '',
+        pPP: this.jugador.pPP || '',
+        rPP: this.jugador.rPP || '',
+        porcentajeTiros: this.jugador.porcentajeTiros || ''
       };
 
       // Si tenemos ID, actualizar; si no, crear nuevo
