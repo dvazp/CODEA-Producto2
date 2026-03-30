@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { JugadoresService } from "../common/datos/services/jugadoresService";
+import { JugadoresService } from "../common/services/jugadoresService";
 import { MediaComponent } from '../mediaComponent/mediaComponent';
 import { toSignal } from "@angular/core/rxjs-interop";
 import { AddPlayerComponent } from '../addPlayerComponent/addPlayerComponent';

@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Output, Input, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { JugadoresService } from '../common/datos/services/jugadoresService';
+import { JugadoresService } from '../common/services/jugadoresService';
+import { uploadImg } from '../common/funcionesAux/supabaseStorage';
 
 @Component({
   selector: 'app-add-player',
@@ -26,6 +27,13 @@ export class AddPlayerComponent {
 
   private jugadoresService = inject(JugadoresService);
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.jugador.img = file;
+    }
+  }
+
   async save() {
     this.error = null;
     if (!this.jugador.nombre || this.jugador.nombre.trim().length === 0) {
@@ -36,7 +44,7 @@ export class AddPlayerComponent {
     try {
       const payload: any = {
         nombre: this.jugador.nombre.trim(),
-        img: this.jugador.img?.trim() || '',
+        img: await uploadImg(this.jugador.img),
         vid: this.jugador.vid?.trim() || '',
         altura: this.jugador.altura || '',
         edad: this.jugador.edad || '',

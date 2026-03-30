@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PlayerFilterPipe } from '../common/pipes/player-filter.pipe';
 import { searchTextSignal, filterFieldSignal, PlayerFilterField, showAddSignal } from '../common/state/search-state';
-import { JugadoresService } from "../common/datos/services/jugadoresService";
+import { JugadoresService } from "../common/services/jugadoresService";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { AddPlayerComponent } from '../addPlayerComponent/addPlayerComponent';
 

@@ -13,8 +13,8 @@
         <input [(ngModel)]="jugador.nombre" name="nombre" class="form-control" required />
       </div>
       <div class="mb-3 flex">
-        <label class="form-label">URL imagen</label>
-        <input [(ngModel)]="jugador.img" name="img" class="form-control" />
+        <label class="form-label">Imagen</label>
+        <input [(ngModel)]="jugador.img" name="img" type="file" (change)="onFileSelected($event)" accept="image/*">
       </div>
       <div class="mb-3">
         <label class="form-label">URL video</label>
