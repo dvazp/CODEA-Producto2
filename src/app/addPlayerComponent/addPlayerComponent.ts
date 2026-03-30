@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, Input, inject, signal } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { JugadoresService } from '../common/services/jugadoresService';
-import { uploadImg } from '../common/funcionesAux/supabaseStorage';
+import { uploadImg, uploadVid } from '../common/funcionesAux/supabaseStorage';
 
 @Component({
   selector: 'app-add-player',
@@ -27,10 +27,36 @@ export class AddPlayerComponent {
 
   private jugadoresService = inject(JugadoresService);
 
-  onFileSelected(event: any) {
+  onPhotoSelected(event: any) {
     const file: File = event.target.files[0];
+    const MAX_SIZE_MB = 1;
+    const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
     if (file) {
+      if (file.size > MAX_SIZE_BYTES) {
+        this.error = `La imagen es demasiado pesada. Máximo ${MAX_SIZE_MB}MB.`;
+        event.target.value = '';
+        this.jugador.img = null;
+        return;
+      }
+      this.error = null;
       this.jugador.img = file;
+    }
+  }
+  onVideoSelected(event: any) {
+    const file: File = event.target.files[0];
+    const MAX_SIZE_MB = 50;
+    const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+    
+    if (file) {
+      if (file.size > MAX_SIZE_BYTES) {
+        this.error = `El video es demasiado pesado. Máximo ${MAX_SIZE_MB}MB.`;
+        event.target.value = ''; 
+        this.jugador.vid = null;
+        return;
+      }
+
+      this.error = null;
+      this.jugador.vid = file;
     }
   }
 
@@ -45,7 +71,7 @@ export class AddPlayerComponent {
       const payload: any = {
         nombre: this.jugador.nombre.trim(),
         img: await uploadImg(this.jugador.img),
-        vid: this.jugador.vid?.trim() || '',
+        vid: await uploadVid(this.jugador.vid),
         altura: this.jugador.altura || '',
         edad: this.jugador.edad || '',
         equipo: this.jugador.equipo || '',
@@ -67,7 +93,7 @@ export class AddPlayerComponent {
       this.close.emit();
     } catch (err: any) {
       console.error('Error guardando jugador:', err);
-      this.error = 'No se pudo guardar el jugador. Revisa la consola.';
+      this.error = 'No se pudo guardar el jugador. Asegúrate de incluir una imagen y vídeos válidos';
     } finally {
       this.saving.set(false);
     }

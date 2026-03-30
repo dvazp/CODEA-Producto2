@@ -4,10 +4,6 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
 }
 
-.object-fit-cover {
-  object-fit: cover;
-}
-
 .btn-purple {
   background-color: #7B42F6;
   border-color: #7B42F6;
