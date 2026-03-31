@@ -2,7 +2,10 @@
   border-radius: 10px;
   border-color: #7B42F6;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  transition: transform 300ms cubic-bezier(.22,.9,.28,1),
+              width 350ms cubic-bezier(.22,.9,.28,1),
+              height 350ms cubic-bezier(.22,.9,.28,1),
+              opacity 280ms ease;
 }
 
 .custom-card:hover {
@@ -11,7 +14,13 @@
 
 .custom-height-img {
   height: 30vh;
-  
+  transition: height 350ms cubic-bezier(.22,.9,.28,1),
+              transform 360ms cubic-bezier(.22,.9,.28,1),
+              opacity 300ms ease;
+}
+.custom-card h2,
+.custom-card p {
+  transition: transform 320ms cubic-bezier(.22,.9,.28,1), opacity 260ms ease;
 }
 .stat-row {
   display: flex;
@@ -31,6 +40,10 @@
   text-align: center;
 }
 
+.stat-badge {
+  transition: transform 300ms cubic-bezier(.22,.9,.28,1), opacity 280ms ease;
+}
+
 .btn-custom {
   background-color: #7B42F6;
   color: white;
@@ -48,4 +61,15 @@
 
 app-media {
   max-width: 100%;
+}
+
+.detail-entrance {
+  opacity: 0;
+  transform: translateX(12px) scale(0.997);
+  animation: detailContentIn 360ms cubic-bezier(.22,.9,.28,1) forwards;
+}
+
+@keyframes detailContentIn {
+  from { opacity: 0; transform: translateX(12px) scale(0.997); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
 }

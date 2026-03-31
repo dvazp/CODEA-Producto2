@@ -15,3 +15,113 @@
   border-color: #59359a;
   color: white;
 }
+
+.players-split {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.players-split .players-left {
+  flex: 1 1 100%;
+}
+.players-split .players-right {
+  flex: 0 0 70%;
+  max-width: 70%;
+}
+.players-split.with-detail .players-left {
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+.players-split {
+  height: calc(100vh - 84px);
+}
+.players-split .players-left {
+  overflow-y: auto;
+  max-height: 100%;
+}
+.players-split .players-right {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.players-split .players-left,
+.players-split .players-right {
+  transition: flex-basis 350ms ease, max-width 350ms ease, width 350ms ease;
+}
+
+.contenedor-grid .col {
+  transition: transform 350ms ease, opacity 300ms ease;
+  will-change: transform, opacity;
+}
+.contenedor-grid .card {
+  transition: transform 250ms ease, box-shadow 200ms ease;
+}
+
+@keyframes detailSlideIn {
+  from {
+    transform: translateX(18px) scale(0.995);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+.players-split .players-right {
+  opacity: 0;
+  transform: translateX(18px) scale(0.995);
+  animation: detailSlideIn 360ms cubic-bezier(.22,.9,.28,1) forwards;
+}
+
+
+@media (max-width: 768px) {
+  .players-split {
+    flex-direction: column;
+    height: auto;
+  }
+  .players-split .players-right,
+  .players-split .players-left {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+.contenedor-grid {
+  display: grid;
+  gap: 1.5rem; 
+  
+  grid-template-columns: repeat(1, 1fr);
+}
+
+@media (max-width: 768px) {
+  .contenedor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .contenedor-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.contenedor-grid.with-detail {
+  display: grid;
+  gap: 1.5rem; 
+  
+  grid-template-columns: repeat(0, 1fr);
+}
+
+@media (max-width: 768px) {
+  .contenedor-grid.with-detail {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .contenedor-grid.with-detail {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

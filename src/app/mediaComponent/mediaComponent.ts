@@ -1,4 +1,4 @@
-import { Component, Input, inject, computed } from '@angular/core';
+import { Component, Input, inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { VgCoreModule } from '@videogular/ngx-videogular/core';
@@ -36,14 +36,23 @@ interface Player {
   styleUrl: './mediaComponent.css',
 })
 export class MediaComponent {
-  @Input() player?: Player;
+  private playerSignal = signal<Player | undefined>(undefined);
+  @Input() set player(value: Player | undefined) {
+    this.playerSignal.set(value);
+  }
+  get player() {
+    return this.playerSignal();
+  }
 
   private jugadoresService = inject(JugadoresService);
   readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
   
   readonly videoSrc = computed(() => {
-    console.log('Calculando video para:', this.player?.nombre);
-    const found = this.players().find(j => j.nombre === this.player?.nombre);
+    const p = this.playerSignal();
+    console.log('Calculando video para:', p?.nombre);
+    if (!p) return '';
+    if ((p as any).vid) return (p as any).vid;
+    const found = this.players().find(j => j.nombre === p.nombre);
     return found?.vid || '';
   });
 }
