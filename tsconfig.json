@@ -13,7 +13,14 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": " ./",
+    "paths": {
+      "supabase/supabase-js": ["./node_modules/@supabase/supabase-js/dist/esm/index.js"]
+    },
+    "module": "esnext",
+    "customConditions": ["browser"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
