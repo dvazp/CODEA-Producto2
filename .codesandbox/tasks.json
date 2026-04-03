@@ -1,15 +1,15 @@
 {
-    "setupTasks": [
-      {
-        "name": "Instalar dependencias con bypass",
-        "command": "npm install --legacy-peer-deps"
-      }
-    ],
-    "tasks": {
-      "start": {
-        "name": "Arrancar Angular",
-        "command": "npm start",
-        "runAt": "onDevboxStart"
-      }
+  "setupTasks": [
+    {
+      "name": "Preparar Node 22",
+      "command": "nvm install 22 && nvm use 22"
+    }
+  ],
+  "tasks": {
+    "start": {
+      "name": "Arrancar Proyecto",
+      "command": "nvm use 22 && npm start",
+      "runAt": "onDevboxStart"
     }
   }
+}
