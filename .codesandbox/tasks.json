@@ -7,8 +7,8 @@
     ],
     "tasks": {
       "start": {
-        "name": "Arrancar Angular con Bypass",
-        "command": "export NG_SKIP_NODE_CHECK=true && npm start",
+        "name": "Arrancar Angular",
+        "command": "npm start",
         "runAt": "onDevboxStart"
       }
     }
