@@ -1,0 +1,15 @@
+{
+  "setupTasks": [
+    {
+      "name": "Preparar Node 22",
+      "command": "nvm install 22 && nvm use 22"
+    }
+  ],
+  "tasks": {
+    "start": {
+      "name": "Arrancar Proyecto",
+      "command": "nvm use 22 && npm start",
+      "runAt": "onDevboxStart"
+    }
+  }
+}
