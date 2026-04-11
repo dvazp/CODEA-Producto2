@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm pb-3" style="background-color: #F2F3F4;">
   <div class="container-fluid w-75">
 
-    <a class="codea-logo fw-bold self-align-start" routerLink="/">
-      CODEA Basket Tech
+    <a class="syntax2-logo fw-bold self-align-start" [routerLink]="['/']" (click)="irAInicio()">
+      SYNTAX2 Basket Tech
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
@@ -44,7 +44,7 @@
                 <li><button class="dropdown-item" (click)="searchText.set('escolta'); filterField.set('Posición')">Escoltas</button></li>
                 <li><button class="dropdown-item" (click)="searchText.set('alero'); filterField.set('Posición')">Aleros</button></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><button class="dropdown-item text-danger" (click)="clearFilters()">Ver todos</button></li>
+                <li><button class="dropdown-item text-danger" (click)="irAInicio()">Ver todos</button></li>
                 </ul>
             </div>
             <button class="btn btn-success btn-sm ms-2" (click)="crearDesdeNav()">
@@ -54,18 +54,32 @@
       } @else {
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link fw-bold" routerLink="/">
+            <a class="nav-link fw-bold" [routerLink]="['/']" (click)="irAInicio()">
               <i class="bi bi-arrow-left"></i> Volver al listado
             </a>
           </li>
         </ul>
       }
       <ul class="navbar-nav ms-3 border-start ps-3">
-        <li class="nav-item"><a class="nav-link" routerLink="/">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/equipo">Equipo</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/club">Club</a></li>
+        <li class="nav-item">
+          <a class="nav-link" 
+          [routerLink]="['/']"
+          (click)="irAInicio()"
+          style="cursor: pointer;"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact: true}">
+          Inicio
+        </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/equipo']"
+          routerLinkActive="active-link">Equipos</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/club']" 
+          routerLinkActive="active-link">Club</a>
+        </li>
       </ul>
-
     </div>
   </div>
 </nav>

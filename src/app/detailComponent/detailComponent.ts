@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { JugadoresService } from "../common/services/jugadoresService";
 import { MediaComponent } from '../mediaComponent/mediaComponent';
 import { toSignal } from "@angular/core/rxjs-interop";
-import { AddPlayerComponent } from '../addPlayerComponent/addPlayerComponent';
+import { FormsModule } from '@angular/forms'
 
 interface Player {
+  id?: string;
   nombre: string;
   equipo: string;
   posicion: string;
@@ -22,7 +23,7 @@ interface Player {
 @Component({
   selector: 'app-detail',
   standalone: true,
-  imports: [CommonModule, MediaComponent, AddPlayerComponent],
+  imports: [CommonModule, MediaComponent, FormsModule],
   templateUrl: './detailComponent.html',
   styleUrl: './detailComponent.css'
 })
@@ -57,6 +58,7 @@ export class DetailComponent {
   private route = inject(ActivatedRoute);
 
   showEdit = signal(false);
+  isEditing = signal(false);
 
   readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
   private routeParams = toSignal(this.route.paramMap);
@@ -89,6 +91,21 @@ export class DetailComponent {
       alert('No se pudo eliminar el jugador. Revisa la consola.');
     }
   }
+
+  async saveChanges(player: any) {
+  if (!player.id) return;
+  try {
+    await this.jugadoresService.updateJugador(player.id, player);
+
+    this.isEditing.set(false); // Cerramos el modo edición
+
+    console.log('Cambios guardados con éxito') //alert('Cambios guardados con éxito');
+    
+  } catch (err) {
+    console.error('Error al actualizar:', err);
+    // alert('Error al guardar los cambios');
+  }
+}
 
   toggleShowEdit(): void {
     this.showEdit.set(!this.showEdit());

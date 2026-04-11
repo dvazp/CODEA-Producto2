@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from "@angular/core";
+import { Component, inject, signal, effect, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { PlayerFilterPipe } from '../common/pipes/player-filter.pipe';
 import { searchTextSignal, filterFieldSignal, PlayerFilterField, showAddSignal } from '../common/state/search-state';
@@ -6,6 +6,10 @@ import { JugadoresService } from "../common/services/jugadoresService";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { AddPlayerComponent } from '../addPlayerComponent/addPlayerComponent';
 import { DetailComponent } from '../detailComponent/detailComponent';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-players',
@@ -14,12 +18,25 @@ import { DetailComponent } from '../detailComponent/detailComponent';
   templateUrl: './playersComponent.html',
   styleUrl: './playersComponent.css'
 })
-export class PlayersComponent {
+export class PlayersComponent implements OnInit {
+
   protected readonly title = signal('CODEA - Jugadores');
   readonly showAdd = showAddSignal;
+ 
+  selectedPlayerId : string | null = null;
+  selectedPlayer: any = null;
   
   private jugadoresService = inject(JugadoresService);
   readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
+  private router = inject(Router);
+
+
+
+
+
+  ngOnInit() {
+    this.selectedPlayer = null;
+}
 
   get searchText(): string {
     return searchTextSignal();
@@ -29,15 +46,16 @@ export class PlayersComponent {
     return filterFieldSignal();
   }
 
-  selectedPlayer: any = null;
 
   selectPlayer(player: any): void {
     const grid = document.querySelector('.contenedor-grid');
     if (!grid) {
       if (this.selectedPlayer && this.selectedPlayer.id === player.id) {
         this.selectedPlayer = null;
+        this.selectedPlayerId = null;
       } else {
         this.selectedPlayer = player;
+        this.selectedPlayerId = player.id;
       }
       return;
     }
@@ -76,29 +94,54 @@ export class PlayersComponent {
   }
 
   constructor() {
-    console.log('PlayersComponent initialized with title:', this.title());
-    this.jugadoresService.getJugadores().subscribe({
-      next: (res) => console.log('Resultado de Firebase:', res),
-      error: (err) => console.error('ERROR de Firebase:', err)
-    });
+console.log('PlayersComponent initialized');
+
+/*this.router.events.pipe(
+  filter(event => event instanceof NavigationEnd)
+).subscribe(()=> {
+    const isHome = this.router.url ==='/' || this.router.url ==='/home';
+    const isSearchEmpty = searchTextSignal() === '';
+    
+    if (isHome && !isSearchEmpty) {
+    console.log('Navegando a Inicio, reiniciando estado...');
+    this.selectedPlayer = null;
+  }
+});
+*/
+
+    // UNIFICADO: Controla la limpieza por búsqueda y la sincronización de datos
     effect(() => {
       const list = this.players();
-      if (this.selectedPlayer) {
-        const updated = list.find((p: any) => p.id === this.selectedPlayer.id);
-        if (updated) {
-          this.selectedPlayer = updated;
-        } else {
-          this.selectedPlayer = null;
-        }
-      }
-    });
-  }
+      const texto = searchTextSignal();
+      
 
+      // Si pulsamos Inicio (texto vacío), cerramos detalle
+      if (texto === '') {
+        this.selectedPlayer = null;
+        this.selectedPlayerId = null;
+        return;
+      }
+
+      // Si hay un jugador seleccionado, lo mantenemos actualizado con la lista
+      if (this.selectedPlayerId) {
+        const updated = list.find((p: any) => p.id === this.selectedPlayerId);
+
+        if (updated) {
+        this.selectedPlayer = { ...this.selectedPlayer, ...updated };
+        }       
+      }
+});
+
+    this.jugadoresService.getJugadores().subscribe({
+      next: (res) => console.log('Resultado de Firebase:', res.length),
+      error: (err) => console.error('ERROR de Firebase:', err)
+    });
+  } 
 
   // animación FLIP para las cartas del grid.
   // No es perfecta pero da un efecto de morphing bastante agradable al cambiar el layout.
   // demasiado esfuerzo para el resultado 😭
-  private doFlip(elements: HTMLElement[], firstRects: DOMRect[], lastRects: DOMRect[]) {
+    private doFlip(elements: HTMLElement[], firstRects: DOMRect[], lastRects: DOMRect[]) {
     if (!elements || elements.length === 0) return;
 
     const duration = 360;
@@ -138,3 +181,5 @@ export class PlayersComponent {
     });
   }
 }
+
+

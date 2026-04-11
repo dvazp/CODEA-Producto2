@@ -10,53 +10,117 @@
           </div>
           <div class="col-md-7">
             <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
+
+              @if (!isEditing()) {
               <h2 class="fw-bold">{{ p.nombre }}</h2>
-              <p><strong>Equipo:</strong> {{ p.equipo }}</p>
-              <p><strong>Posición:</strong> {{ p.posicion }}</p>
-              <p><strong>Altura:</strong> {{ p.altura }}</p>
-              <p><strong>Edad:</strong> {{ p.edad }}</p>
+              }@else {
+                <input [(ngModel)]="p.nombre" type="text" class="form-control mb-2 fw-bold fs-2" placeholder="Nombre">
+              }
+              <p><strong>Equipo:</strong> 
+                @if (!isEditing()) {
+                  <span>{{p.equipo }}</span>
+                } @else {
+                  <input [(ngModel)]="p.equipo" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Equipo">
+                }
+              </p>
+              <p><strong>Posición:</strong>
+                  @if (!isEditing()) {
+                    <span>{{p.posicion }}</span>
+                  } @else {
+                    <input [(ngModel)]="p.posicion" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Posición">
+                  }
+              </p>
+              <p><strong>Altura:</strong>
+                @if (!isEditing()) {
+                  <span>{{ p.altura }}</span>
+                } @else {
+                  <input [(ngModel)]="p.altura" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Altura">
+                }
+              </p>
+              <p><strong>Edad:</strong>
+                @if (!isEditing()) {
+                  <span>{{ p.edad }}</span>
+                } @else {
+                  <input [(ngModel)]="p.edad" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Edad">
+                }
+              </p>
             </div>
           </div>
         </div>
         <div class="row g-3">
-          <div class="col-md-6">
+          <div class="col-md-5">
             <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
               <h2 class="fw-bold">El Míster</h2>
               <p><strong>Nombre:</strong> Alex Sabater</p>
               <p><strong>Edad:</strong> 33</p>
               <p><strong>Ocupación:</strong> Director técnico deportivo</p>
               <p><strong>Objetivos:</strong> Acceder a datos de jugadores</p>
-              <div class="d-flex flex-row gap-2 mt-3">
-                <button class="btn btn-custom mt-3 align-self-center"
+              <div class="d-flex flex-row gap-2 mt-3 align-items-stretch">
+                <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
                   (click)="deletePlayer(p)">
+                  <span>🗑️</span>
                   Eliminar jugador
                 </button>
-                <button class="btn btn-custom mt-3 align-self-center"
-                  (click)="toggleShowEdit()">
-                  Editar jugador
+                <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
+                  (click)="isEditing.set(!isEditing())">
+                  @if(isEditing()) {
+                    <span>❌</span>
+                    <span>Cancelar edición</span>
+                  } @else {
+                    <span>✏️ </span>
+                    <span>Editar Jugador</span>
+                  }
                 </button>
-              </div>
-            </div>
+
+                @if (isEditing()){
+                  <button 
+                  type="button" 
+                  class="btn btn-success flex-fill d-flex flex-column align-items-center justify-content-center"
+                  (click)="saveChanges(p)">
+                <span>💾</span>
+                <span style="font-size: 0.8rem;"> Guardar cambios</span>
+                </button>
+                }
           </div>
-          <div class="col-md-6">
+          </div>
+          </div>
+
+          <div class="col-md-7">
             <div class="custom-card p-4 h-100">
               <h2 class="fw-bold" style="color: #e69520;">Promedio de la temporada</h2>
               
               <div class="stat-row">
                 <span>Puntos por partido (PPP)</span>
-                <span class="stat-badge">{{ p.pPP }}</span>
+                @if(!isEditing()) {
+                  <span class="stat-badge">{{ p.pPP }}</span>
+                } @else {
+                  <input [(ngModel)]="p.pPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="PPP">
+                }
               </div>
               <div class="stat-row">
                 <span>Rebotes por partido (RPP)</span>
-                <span class="stat-badge">{{ p.rPP }}</span>
+                @if(!isEditing()) {
+                  <span class="stat-badge">{{ p.rPP }}</span>
+                } @else {
+                  <input [(ngModel)]="p.rPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="RPP">
+                }
               </div>
               <div class="stat-row">
                 <span>Asistencias por partido (APP)</span>
-                <span class="stat-badge">{{ p.aPP }}</span>
+                @if(!isEditing()) {
+                  <span class="stat-badge">{{ p.aPP }}</span>
+                } @else {
+                  <input [(ngModel)]="p.aPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="APP">
+                }
               </div>
               <div class="stat-row border-0">
                 <span>Porcentaje Tiros de Campo (%TC)</span>
-                <span class="stat-badge">{{ p.porcentajeTiros }}%</span>
+                @if(!isEditing()) {
+                  <span class="stat-badge">{{ p.porcentajeTiros }}%</span>
+                } @else {
+                  <input [(ngModel)]="p.porcentajeTiros" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="%TC">
+                    
+                }
               </div>
             </div>
           </div>
@@ -74,4 +138,3 @@
   </div>
   }
 </main>
-<app-add-player *ngIf="showEdit()" [player]="player()" (close)="toggleShowEdit()"></app-add-player>

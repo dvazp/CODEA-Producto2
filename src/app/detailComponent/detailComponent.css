@@ -30,6 +30,12 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
+.stat-row input{
+  text-align: right;
+  width: 80px !important;
+  border-color: #7B42F6;
+}
+
 .stat-badge {
   background-color: #7B42F6;
   color: white;
@@ -58,6 +64,32 @@
   color: white;
   transform: translateY(-2px);
 }
+
+.btn.flex-fill {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center;
+  min-height: 85px;
+  text-align: center;
+}
+
+.btn.flex-fill span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: block;
+}
+
+.btn.btn.flex-fill span:first-child {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+}
+
+.btn-success{
+  background-color: #198754 !important;
+  font-weight: bold;
+}
+
 
 app-media {
   max-width: 100%;
