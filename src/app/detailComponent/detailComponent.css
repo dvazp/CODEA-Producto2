@@ -145,3 +145,19 @@ app-media {
 .custom-search-input::placeholder {
   color: rgba(123, 66, 246, 0.5);
 }
+
+.button-stack-container {
+  display: grid; 
+  grid-template-areas: "stack";
+  margin-top: 1.5rem;
+  min-height: 50px;
+  height: 50%;
+}
+
+.button-stack-item {
+  grid-area: stack; 
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

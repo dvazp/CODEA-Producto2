@@ -52,32 +52,33 @@
         <div class="row g-3">
           <div class="col-md-5">
             <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
-              <h2 class="fw-bold">El Míster</h2>
-              <p><strong>Nombre:</strong> Alex Sabater</p>
-              <p><strong>Edad:</strong> 33</p>
-              <p><strong>Ocupación:</strong> Director técnico deportivo</p>
-              <p><strong>Objetivos:</strong> Acceder a datos de jugadores</p>
-              <div class="d-flex flex-row gap-2 mt-3 align-items-stretch">
+              <h2 class="fw-bold align-self-start">El Míster</h2>
+              <p>Haz cambios del jugador desde aquí!</p>
+              <div class="button-stack-container">
                 @if (!isEditing()) {
-                  <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
-                    (click)="deletePlayer(p)">
-                    Eliminar jugador
-                  </button>
-                  <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
-                    (click)="isEditing.set(!isEditing())">
-                      Editar jugador
-                  </button>
+                  <div @fadeSlide class="button-stack-item flex-column gap-2">
+                    <button class="btn btn-custom" style="width: 100%;"
+                      (click)="deletePlayer(p)">
+                      Eliminar jugador
+                    </button>
+                    <button class="btn btn-custom" style="width: 100%;"
+                      (click)="isEditing.set(!isEditing())">
+                        Editar jugador
+                    </button>
+                  </div>
                 } @else {
-                  <button 
-                    type="button" 
-                    class="btn btn-custom-inversed"
-                    (click)="saveChanges(p)">
-                    Guardar cambios
-                  </button>
-                  <button class="btn btn-custom-inversed flex-fill d-flex flex-column align-items-center justify-content-center"
-                    (click)="isEditing.set(!isEditing())">
-                      Cancelar edición
-                  </button>
+                  <div @fadeSlide class="button-stack-item flex-row gap-2">
+                    <button 
+                      type="button" 
+                      class="btn btn-custom"
+                      (click)="saveChanges(p)">
+                      Guardar cambios
+                    </button>
+                    <button class="btn btn-custom"
+                      (click)="isEditing.set(!isEditing())">
+                        Cancelar edición
+                    </button>
+                  </div>
                 }
               </div>
             </div>
@@ -85,38 +86,46 @@
           <div class="col-md-7">
             <div class="custom-card p-4 h-100">
               <h2 class="fw-bold" style="color: #e69520;">Promedio de la temporada</h2>
-              
-              <div class="stat-row">
-                <span>Puntos por partido (PPP)</span>
+
+              <div class="position-relative">
                 @if(!isEditing()) {
-                  <span class="stat-badge">{{ p.pPP }}</span>
+                  <div @fadeSlide style="position: absolute; width: 100%;">
+                    <div class="stat-row">
+                      <span>Puntos por partido (PPP)</span>
+                      <span class="stat-badge">{{ p.pPP }}</span>
+                    </div>
+                    <div class="stat-row">
+                      <span>Rebotes por partido (RPP)</span>
+                      <span class="stat-badge">{{ p.rPP }}</span>
+                    </div>
+                    <div class="stat-row">
+                      <span>Asistencias por partido (APP)</span>
+                      <span class="stat-badge">{{ p.aPP }}</span>
+                    </div>
+                    <div class="stat-row border-0">
+                      <span>Porcentaje Tiros de Campo (%TC)</span>
+                      <span class="stat-badge">{{ p.porcentajeTiros }}%</span>
+                    </div>
+                  </div>
                 } @else {
-                  <input [(ngModel)]="p.pPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="PPP">
-                }
-              </div>
-              <div class="stat-row">
-                <span>Rebotes por partido (RPP)</span>
-                @if(!isEditing()) {
-                  <span class="stat-badge">{{ p.rPP }}</span>
-                } @else {
-                  <input [(ngModel)]="p.rPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="RPP">
-                }
-              </div>
-              <div class="stat-row">
-                <span>Asistencias por partido (APP)</span>
-                @if(!isEditing()) {
-                  <span class="stat-badge">{{ p.aPP }}</span>
-                } @else {
-                  <input [(ngModel)]="p.aPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="APP">
-                }
-              </div>
-              <div class="stat-row border-0">
-                <span>Porcentaje Tiros de Campo (%TC)</span>
-                @if(!isEditing()) {
-                  <span class="stat-badge">{{ p.porcentajeTiros }}%</span>
-                } @else {
-                  <input [(ngModel)]="p.porcentajeTiros" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="%TC">
-                    
+                  <div @fadeSlide>
+                    <div class="stat-row">
+                      <span>Puntos por partido (PPP)</span>
+                      <input [(ngModel)]="p.pPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="PPP">
+                    </div>
+                    <div class="stat-row">
+                      <span>Rebotes por partido (RPP)</span>
+                      <input [(ngModel)]="p.rPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="RPP">
+                    </div>
+                    <div class="stat-row">
+                      <span>Asistencias por partido (APP)</span>
+                      <input [(ngModel)]="p.aPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="APP">
+                    </div>
+                    <div class="stat-row border-0">
+                      <span>Porcentaje Tiros de Campo (%TC)</span>
+                      <input [(ngModel)]="p.porcentajeTiros" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="%TC">
+                    </div>
+                  </div>
                 }
               </div>
             </div>
