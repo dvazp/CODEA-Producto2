@@ -7,7 +7,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "nvm install 22 && nvm use 22 && ng serve --host 0.0.0.0 --allowed-hosts=all",
+    "start": "ng serve --host=0.0.0.0 --allowed-hosts=all",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

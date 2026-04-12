@@ -11,7 +11,7 @@
   "tasks": {
     "start": {
       "name": "Arrancar Angular",
-      "command": "nvm use 22 && npm install --legacy-peer-deps && npm start",
+      "command": "npm start",
       "runAt": "onAppear"
     }
   }
