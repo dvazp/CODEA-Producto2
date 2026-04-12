@@ -27,7 +27,7 @@
     "@videogular/ngx-videogular": "^20.0.0",
     "bootstrap": "^5.3.8",
     "firebase": "^12.11.0",
-    "firebase-admin": "^10.3.0",
+    "firebase-admin": "^13.8.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

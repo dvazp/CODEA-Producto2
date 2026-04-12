@@ -26,7 +26,18 @@ interface Player {
   standalone: true,
   imports: [CommonModule, MediaComponent, FormsModule],
   templateUrl: './detailComponent.html',
-  styleUrl: './detailComponent.css'
+  styleUrl: './detailComponent.css',
+  animations: [
+    trigger('fadeSlide', [
+      transition(':enter', [
+        style({ opacity: 0}),
+        animate('300ms ease-out', style({ opacity: 1}))
+      ]),
+      transition(':leave', [
+        animate('100ms ease-in', style({ opacity: 0}))
+      ])
+    ])
+  ]
 })
 export class DetailComponent {
   private playerInputSignal = signal<Player | null | undefined>(undefined);

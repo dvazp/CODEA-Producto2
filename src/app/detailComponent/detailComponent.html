@@ -11,35 +11,39 @@
           <div class="col-md-7">
             <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
               @if (!isEditing()) {
-                <h2 class="fw-bold" style="color:#e69520">{{ p.nombre }}</h2>
-                <p><strong>Equipo: </strong> 
-                <span>{{p.equipo }}</span></p>
-                <p><strong>Posición: </strong>
-                <span>{{p.posicion }}</span></p>
-                <p><strong>Altura: </strong>
-                <span>{{p.altura }}</span></p>
-                <p><strong>Edad: </strong>
-                <span>{{p.edad }}</span></p>
+                <div @fadeSlide style="position: absolute">
+                  <h2 class="fw-bold" style="color:#e69520">{{ p.nombre }}</h2>
+                  <p><strong>Equipo: </strong> 
+                  <span>{{p.equipo }}</span></p>
+                  <p><strong>Posición: </strong>
+                  <span>{{p.posicion }}</span></p>
+                  <p><strong>Altura: </strong>
+                  <span>{{p.altura }}</span></p>
+                  <p><strong>Edad: </strong>
+                  <span>{{p.edad }}</span></p>
+                </div>
               }@else {
-                <div class="search-group d-flex flex-row align-items-center gap-3">
-                  <strong style="color: #7B42F6;">Nombre: </strong>
-                  <input [(ngModel)]="p.nombre" type="text" class="form-control custom-search-input" placeholder="Nombre">
-                </div>
-                <div class="search-group d-flex align-items-center gap-3">
-                  <strong style="color: #7B42F6;">Equipo: </strong>
-                  <input [(ngModel)]="p.equipo" class="form-control custom-search-input" placeholder="Equipo">
-                </div>
-                <div class="search-group d-flex align-items-center gap-3">
-                  <strong style="color: #7B42F6;">Posición: </strong>
-                  <input [(ngModel)]="p.posicion" class="form-control custom-search-input" placeholder="Posición">
-                </div>
-                <div class="search-group d-flex align-items-center gap-3">
-                  <strong style="color: #7B42F6;">Altura: </strong>
-                  <input [(ngModel)]="p.altura" class="form-control custom-search-input" placeholder="Altura">
-                </div>
-                <div class="search-group d-flex align-items-center gap-3">
-                  <strong style="color: #7B42F6;">Edad: </strong>
-                  <input [(ngModel)]="p.edad" class="form-control custom-search-input" placeholder="Edad">
+                <div @fadeSlide>
+                  <div class="search-group d-flex flex-row align-items-center gap-3">
+                    <strong style="color: #7B42F6;">Nombre: </strong>
+                    <input [(ngModel)]="p.nombre" type="text" class="form-control custom-search-input" placeholder="Nombre">
+                  </div>
+                  <div class="search-group d-flex align-items-center gap-3">
+                    <strong style="color: #7B42F6;">Equipo: </strong>
+                    <input [(ngModel)]="p.equipo" class="form-control custom-search-input" placeholder="Equipo">
+                  </div>
+                  <div class="search-group d-flex align-items-center gap-3">
+                    <strong style="color: #7B42F6;">Posición: </strong>
+                    <input [(ngModel)]="p.posicion" class="form-control custom-search-input" placeholder="Posición">
+                  </div>
+                  <div class="search-group d-flex align-items-center gap-3">
+                    <strong style="color: #7B42F6;">Altura: </strong>
+                    <input [(ngModel)]="p.altura" class="form-control custom-search-input" placeholder="Altura">
+                  </div>
+                  <div class="search-group d-flex align-items-center gap-3">
+                    <strong style="color: #7B42F6;">Edad: </strong>
+                    <input [(ngModel)]="p.edad" class="form-control custom-search-input" placeholder="Edad">
+                  </div>
                 </div>
               }
             </div>
