@@ -1,8 +1,8 @@
 <div class="container-fluid px-5 h-100">
-    <div [class.with-detail]="selectedPlayer" class="players-split" style="height: max-content;">
+    <div [class.with-detail]="selectedPlayer || showAdd()" class="players-split" style="height: max-content;">
       <div class="players-left">
         <div *ngIf="players().length > 0; else noPlayers"
-          [class.with-detail]="selectedPlayer" class="contenedor-grid mt-4" style="margin-bottom: 5rem;">
+          [class.with-detail]="selectedPlayer || showAdd()" class="contenedor-grid mt-4" style="margin-bottom: 5rem;">
           <div class="col" *ngFor="let jugador of players() | playerFilter:searchText:filterField">
             <div class="card h-100 shadow-sm border-2 player-card-hover"
                 style="cursor: pointer; border-radius: 10px; transition: 0.2s;">
@@ -42,21 +42,16 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="players-right mt-4" *ngIf="selectedPlayer">
+      <div class="players-right mt-4" *ngIf="selectedPlayer || showAdd()">
+      @if (showAdd()) {
+        <app-add-player (close)="toggleShowAdd()"></app-add-player>
+      } @else if (selectedPlayer) {
         <app-detail [playerInput]="selectedPlayer"></app-detail>
-      </div>
+      }
     </div>
-
-  <app-add-player 
-    *ngIf="showAdd()" 
-    [player]="selectedPlayer" 
-    (close)="toggleShowAdd()">
-  </app-add-player>
-
-  
+  </div>  
   <ng-template #noPlayers>
     <div class = "container-fluid px-5">
       <div class = "alert alert-info shadow-sm" role="alert">

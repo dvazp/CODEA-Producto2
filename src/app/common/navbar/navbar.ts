@@ -26,6 +26,7 @@ export class Navbar {
     }
         readonly searchText = searchTextSignal;
         readonly filterField = filterFieldSignal;
+        readonly showAdd = showAddSignal;
 
     
         async irAInicio() {
@@ -45,8 +46,8 @@ export class Navbar {
 
         crearDesdeNav(): void {
          if(!this.isHome()) {
-            this.irAInicio();
-            
+            this.router.navigate(['/']);
             }
+            showAddSignal.set(true);
         }
 }

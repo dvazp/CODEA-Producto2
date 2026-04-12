@@ -1,105 +1,117 @@
-import { Component, EventEmitter, Output, Input, inject, signal } from '@angular/core';
+import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { JugadoresService } from '../common/services/jugadoresService';
 import { uploadImg, uploadVid } from '../common/funcionesAux/supabaseStorage';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-add-player',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './addPlayerComponent.html',
-  styleUrl: './addPlayerComponent.css'
+  styleUrl: './addPlayerComponent.css', // Asegúrate de copiar los estilos de detail.css aquí
+  animations: [
+    trigger('fadeSlide', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ])
+  ]
 })
 export class AddPlayerComponent {
   @Output() close = new EventEmitter<void>();
-  @Input() set player(value: any) {
-    if (value) {
-      this.jugador = { ...value };
-    } else {
-      this.jugador = { nombre: '', img: '', vid: '', altura: '', edad: '', equipo: '', posicion: '', aPP: '', pPP: '', rPP: '', porcentajeTiros: '' };
-    }
-  }
+  // Inicializamos un objeto vacío con la estructura de Player
+  jugador = {
+    nombre: '', equipo: '', posicion: '', altura: '', edad: 0,
+    pPP: 0, rPP: 0, aPP: 0, porcentajeTiros: 0,
+    img: 'assets/placeholder-player.png',
+    vid: null
+  } as any;
 
-  jugador = { nombre: '', img: '' } as any;
+  // Para manejar los archivos antes de subir a Supabase
+  selectedImgFile: File | null = null;
+  selectedVidFile: File | null = null;
+  
+  previewImg: string | null = null;
+  previewVid: string | ArrayBuffer | null = null;
   saving = signal(false);
   error: string | null = null;
 
   private jugadoresService = inject(JugadoresService);
 
-  onPhotoSelected(event: any) {
-    const file: File = event.target.files[0];
-    const MAX_SIZE_MB = 1;
-    const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
-    if (file) {
-      if (file.size > MAX_SIZE_BYTES) {
-        this.error = `La imagen es demasiado pesada. Máximo ${MAX_SIZE_MB}MB.`;
-        event.target.value = '';
-        this.jugador.img = null;
-        return;
-      }
-      this.error = null;
-      this.jugador.img = file;
-    }
-  }
-  onVideoSelected(event: any) {
-    const file: File = event.target.files[0];
-    const MAX_SIZE_MB = 50;
-    const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
-    
-    if (file) {
-      if (file.size > MAX_SIZE_BYTES) {
-        this.error = `El video es demasiado pesado. Máximo ${MAX_SIZE_MB}MB.`;
-        event.target.value = ''; 
-        this.jugador.vid = null;
-        return;
-      }
+  handleFile(event: any, type: 'img' | 'video') {
+  event.preventDefault();
+  event.stopPropagation();
 
-      this.error = null;
-      this.jugador.vid = file;
+  const file = event.type === 'drop' 
+    ? event.dataTransfer?.files[0] 
+    : event.target.files[0];
+
+  if (!file) return;
+
+  if (type === 'img') {
+    this.selectedImgFile = file;
+  } else {
+    this.selectedVidFile = file;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    if (type === 'img') {
+      this.previewImg = e.target.result;
+    } else {
+      this.previewVid = e.target.result; 
     }
+  };
+  reader.readAsDataURL(file);
+}
+
+  isFormValid(): boolean {
+    return !!(this.jugador.nombre && this.selectedImgFile);
   }
 
   async save() {
-    this.error = null;
-    if (!this.jugador.nombre || this.jugador.nombre.trim().length === 0) {
-      this.error = 'El nombre es obligatorio.';
+    if (!this.jugador.nombre) {
+      this.error = "El nombre es obligatorio";
+      return;
+    }
+    if (!this.selectedImgFile) {
+      this.error = "Se requiere subir una foto";
       return;
     }
     this.saving.set(true);
     try {
-      const payload: any = {
-        nombre: this.jugador.nombre.trim(),
-        img: await uploadImg(this.jugador.img),
-        vid: await uploadVid(this.jugador.vid),
-        altura: this.jugador.altura || '',
-        edad: this.jugador.edad || '',
-        equipo: this.jugador.equipo || '',
-        posicion: this.jugador.posicion || '',
-        aPP: this.jugador.aPP || '',
-        pPP: this.jugador.pPP || '',
-        rPP: this.jugador.rPP || '',
-        porcentajeTiros: this.jugador.porcentajeTiros || ''
-      };
+      // Subir archivos y obtener URLs
+      const imgUrl = this.selectedImgFile ? await uploadImg(this.selectedImgFile) : '';
+      const vidUrl = this.selectedVidFile ? await uploadVid(this.selectedVidFile) : '';
 
-      // Si tenemos ID, actualizar; si no, crear nuevo
-      if (this.jugador.id) {
-        await this.jugadoresService.updateJugador(this.jugador.id, payload);
-      } else {
-        await this.jugadoresService.addJugador(payload);
-      }
-
-      this.jugador = { nombre: '', img: '', vid: '', altura: '', edad: '', equipo: '', posicion: '', aPP: '', pPP: '', rPP: '', porcentajeTiros: '' };
+      const payload = { ...this.jugador, img: imgUrl, vid: vidUrl };
+      await this.jugadoresService.addJugador(payload);
       this.close.emit();
-    } catch (err: any) {
-      console.error('Error guardando jugador:', err);
-      this.error = 'No se pudo guardar el jugador. Asegúrate de incluir una imagen y vídeos válidos';
+    } catch (err) {
+      this.error = "Error al guardar el jugador";
     } finally {
       this.saving.set(false);
     }
   }
 
-  cancel() {
-    this.close.emit();
+
+  validateNumber(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    // Permitir números (48-57) y el punto (46)
+    if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  cancel() { this.close.emit(); }
 }

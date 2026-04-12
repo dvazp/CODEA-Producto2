@@ -1,62 +1,106 @@
-<div class="add-player-overlay">
-  <div class="add-player-card shadow-sm">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="mb-0">Añadir nuevo jugador</h5>
-      <button class="btn-close" (click)="cancel()" aria-label="Cerrar"></button>
+<main class="container-fluid" style="width: 70vw">
+  <div @fadeSlide class="row g-4 justify-content-center mx-4">
+    <div class="col-lg-8">
+    <div class="d-flex flex-column gap-3">
+      <div class="row g-3">
+        <div class="col-md-5">
+          <div class="position-relative drop-zone editing-active" 
+            (click)="fileInputImg.click()"
+            (dragover)="onDragOver($event)" 
+            (drop)="handleFile($event, 'img')">
+          
+          <img [src]="" 
+              class="img-fluid rounded-3 custom-height-img w-100 object-fit-cover" 
+              style="opacity: 0.7; object-position: top;">
+          
+          <div class="edit-overlay">
+            <span>Selecciona o arrastra una imagen</span>
+          </div>
+          <input type="file" #fileInputImg hidden accept="image/*" (change)="handleFile($event, 'img')">
+        </div>
+        </div>
+
+        <div class="col-md-7">
+          <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
+            <div class="search-group d-flex flex-row align-items-center gap-3">
+              <strong style="color: #7B42F6;">Nombre: </strong>
+              <input [(ngModel)]="jugador.nombre" class="form-control custom-search-input" placeholder="Ej: Stephen Curry">
+            </div>
+            <div class="search-group d-flex align-items-center gap-3">
+              <strong style="color: #7B42F6;">Equipo: </strong>
+              <input [(ngModel)]="jugador.equipo" class="form-control custom-search-input" placeholder="Equipo">
+            </div>
+            <div class="search-group d-flex align-items-center gap-3">
+              <strong style="color: #7B42F6;">Posición: </strong>
+              <input [(ngModel)]="jugador.posicion" class="form-control custom-search-input" placeholder="Posición">
+            </div>
+            <div class="search-group d-flex align-items-center gap-3">
+              <strong style="color: #7B42F6;">Altura: </strong>
+              <input [(ngModel)]="jugador.altura" class="form-control custom-search-input" placeholder="2.08">
+            </div>
+            <div class="search-group d-flex align-items-center gap-3">
+              <strong style="color: #7B42F6;">Edad: </strong>
+              <input [(ngModel)]="jugador.edad" type="number" class="form-control custom-search-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-5">
+          <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
+            <h2 class="fw-bold align-self-start" style="color: #e69520">Nuevo Fichaje</h2>
+            <p>Introduce los datos para el nuevo jugador.<br><br> ¡Recuerda que el nombre y la foto son obligatorios!</p>
+            <div class="button-stack-container mt-auto">
+              <div class="button-stack-item flex-column gap-2">
+                <button class="btn btn-custom w-100" (click)="save()" [disabled]="saving() || !isFormValid()">
+                  {{ saving() ? 'Guardando...' : 'Guardar Jugador' }}
+                </button>
+                <button class="btn btn-custom w-100" (click)="cancel()">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <div class="custom-card p-4" style="height: 40vh;">
+            <h2 class="fw-bold" style="color: #e69520;">Promedios iniciales</h2>
+              <div @fadeSlide>
+                <div class="stat-row stat-row-edit">
+                  <span style="color: #7B42F6; width: max-content">Puntos por partido (PPP)</span>
+                  <input [(ngModel)]="jugador.pPP" class="form-control custom-search-input ml-auto" placeholder="PPP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" (keypress)="validateNumber($event)">
+                </div>
+                <div class="stat-row stat-row-edit">
+                  <span style="color: #7B42F6; width: max-content">Rebotes por partido (RPP)</span>
+                  <input [(ngModel)]="jugador.rPP" class="form-control custom-search-input ml-auto" placeholder="PPP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" placeholder="RPP" min="0" step="0.1" (keypress)="validateNumber($event)">
+                </div>
+                <div class="stat-row stat-row-edit">
+                  <span style="color: #7B42F6; width: max-content">Asistencias por partido (APP)</span>
+                  <input [(ngModel)]="jugador.aPP" class="form-control custom-search-input ml-auto" placeholder="APP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" min="0" step="0.1" (keypress)="validateNumber($event)">
+                </div>
+                <div class="stat-row stat-row-edit">
+                  <span style="color: #7B42F6; width: max-content">Porcentaje Tiros de Campo (%TC)</span>
+                  <input [(ngModel)]="jugador.porcentajeTiros" class="form-control custom-search-input ml-auto" placeholder="PPP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" placeholder="%TC" min="0" step="0.1" (keypress)="validateNumber($event)">
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-
-    <form (ngSubmit)="save()" class="h-75">
-      <div class="mb-3">
-        <label class="form-label">Nombre</label>
-        <input [(ngModel)]="jugador.nombre" name="nombre" class="form-control" required />
-      </div>
-      <div class="mb-3 flex">
-        <label class="form-label">Imagen</label>
-        <input name="img" type="file" (change)="onPhotoSelected($event)" accept="image/*">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">URL video</label>
-        <input name="vid" type="file" (change)="onVideoSelected($event)" accept="video/*">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Altura</label>
-        <input [(ngModel)]="jugador.altura" name="altura" class="form-control" type="number" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Edad</label>
-        <input [(ngModel)]="jugador.edad" name="edad" class="form-control" type="number" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Equipo</label>
-        <input [(ngModel)]="jugador.equipo" name="equipo" class="form-control" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Posición</label>
-        <input [(ngModel)]="jugador.posicion" name="posicion" class="form-control" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">aPP</label>
-        <input [(ngModel)]="jugador.aPP" name="aPP" class="form-control" type="number" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">pPP</label>
-        <input [(ngModel)]="jugador.pPP" name="pPP" class="form-control" type="number" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">rPP</label>
-        <input [(ngModel)]="jugador.rPP" name="rPP" class="form-control" type="number" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Porcentaje de tiros</label>
-        <input [(ngModel)]="jugador.porcentajeTiros" name="porcentajeTiros" class="form-control" type="number" />
-      </div>
-
-      <div class="d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
-        <button type="submit" class="btn btn-purple" [disabled]="saving()">Guardar</button>
-      </div>
-    </form>
+  <div class="col-lg-4">
+    <div class="position-relative drop-zone h-100 editing-active" 
+      (click)="fileInputVideo.click()"
+      (dragover)="onDragOver($event)" 
+      (drop)="handleFile($event, 'video')">
+      
+        <div class="edit-overlay">
+          <span *ngIf="!selectedVidFile">Selecciona o arrastra un vídeo</span>
+          <span *ngIf="selectedVidFile" class="text-success">Vídeo cargado: {{selectedVidFile.name}}</span>
+        </div>
+      <input type="file" #fileInputVideo hidden accept="video/*" (change)="handleFile($event, 'video')">
+    </div>
   </div>
 </div>
+</main>

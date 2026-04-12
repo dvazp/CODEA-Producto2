@@ -44,6 +44,7 @@ export class PlayersComponent implements OnInit {
 
 
   selectPlayer(player: any): void {
+    showAddSignal.set(false);
     const grid = document.querySelector('.contenedor-grid');
     if (!grid) {
       if (this.selectedPlayer?.id === player.id) {
@@ -76,7 +77,8 @@ export class PlayersComponent implements OnInit {
   }
 
   toggleShowAdd(player: any = null): void {
-    this.selectedPlayer = player;
+    this.selectedPlayer = null;
+    this.selectedPlayerId = null;
     showAddSignal.set(!showAddSignal());
   }
 
@@ -92,7 +94,7 @@ export class PlayersComponent implements OnInit {
   }
 
   constructor() {
-console.log('PlayersComponent initialized');
+  console.log('PlayersComponent initialized');
 
   /*this.router.events.pipe(
     filter(event => event instanceof NavigationEnd)

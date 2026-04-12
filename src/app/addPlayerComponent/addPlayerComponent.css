@@ -1,18 +1,165 @@
-.add-player-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+.custom-card {
+  border-radius: 10px;
+  border-color: #7B42F6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 300ms cubic-bezier(.22,.9,.28,1),
+              width 350ms cubic-bezier(.22,.9,.28,1),
+              height 350ms cubic-bezier(.22,.9,.28,1),
+              opacity 280ms ease;
+  height: max-content;
+  background-color: white;
+}
+
+.custom-card:hover {
+  transform: scale(1.01);
+}
+
+.custom-height-img {
+  height: 30vh;
+  transition: height 350ms cubic-bezier(.22,.9,.28,1),
+              transform 360ms cubic-bezier(.22,.9,.28,1),
+              opacity 300ms ease;
+}
+
+.custom-card h2,
+.custom-card p {
+  transition: transform 320ms cubic-bezier(.22,.9,.28,1), opacity 260ms ease;
+}
+
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.stat-row input{
+  text-align: center;
+  width: 70px;
+  border-color: #7B42F6;
+}
+
+.stat-row-edit {
+  border-bottom: 2px solid rgba(123, 66, 246, 0.5);
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.stat-row-edit:focus-within {
+  border-color: #e69520; /* Color naranja al escribir */
+}
+
+.stat-row-edit span {
+  color: #7B42F6;
+}
+
+.btn-custom {
+  background-color: #7B42F6;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #e69520;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.search-group {
+  border-bottom: 2px solid rgba(123, 66, 246, 0.5);
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.search-group:focus-within {
+  border-color: #e69520;
+}
+
+.search-group {
+  border-bottom: 2px solid rgba(123, 66, 246, 0.5);
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.search-group:focus-within {
+  border-color: #e69520; /* Color naranja al escribir */
+}
+
+.custom-search-input {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #e69520 !important;
+  font-weight: bold;
+  font-size: 16px;
+  width: full;
+  padding: 8px 10px;
+}
+
+.custom-search-input::placeholder {
+  color: rgba(123, 66, 246, 0.5);
+}
+
+.button-stack-container {
+  display: grid; 
+  grid-template-areas: "stack";
+  margin-top: 1.5rem;
+  min-height: 50px;
+  height: max-content;
+  width: 100%;
+}
+
+.button-stack-item {
+  grid-area: stack; 
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1050;
-  padding: 1rem;
 }
 
-.add-player-card {
-  background: #fff;
+.stats-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Selectores de input para quitar flechas en tipos numéricos */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.drop-zone {
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.drop-zone.editing-active {
+  cursor: pointer;
+}
+
+.drop-zone.editing-active:hover {
+  background-color: rgba(123, 66, 246, 0.1);
+}
+
+.edit-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.3);
+  color: white;
+  font-weight: bold;
+  pointer-events: none;
   border-radius: 8px;
-  width: 100%;
-  max-width: 520px;
-  padding: 1.25rem;
 }
