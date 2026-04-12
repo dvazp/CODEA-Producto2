@@ -30,13 +30,9 @@ export class PlayersComponent implements OnInit {
   readonly players = toSignal(this.jugadoresService.getJugadores(), { initialValue: [] });
   private router = inject(Router);
 
-
-
-
-
   ngOnInit() {
     this.selectedPlayer = null;
-}
+  }
 
   get searchText(): string {
     return searchTextSignal();
@@ -50,12 +46,12 @@ export class PlayersComponent implements OnInit {
   selectPlayer(player: any): void {
     const grid = document.querySelector('.contenedor-grid');
     if (!grid) {
-      if (this.selectedPlayer && this.selectedPlayer.id === player.id) {
+      if (this.selectedPlayer?.id === player.id) {
         this.selectedPlayer = null;
         this.selectedPlayerId = null;
       } else {
         this.selectedPlayer = player;
-        this.selectedPlayerId = player.id;
+        this.selectedPlayerId = player.id; // Importante!!!
       }
       return;
     }
@@ -65,8 +61,10 @@ export class PlayersComponent implements OnInit {
 
     if (this.selectedPlayer && this.selectedPlayer.id === player.id) {
       this.selectedPlayer = null;
+      this.selectedPlayerId = null;
     } else {
       this.selectedPlayer = player;
+      this.selectedPlayerId = player.id;
     }
 
     requestAnimationFrame(() => {
@@ -96,41 +94,36 @@ export class PlayersComponent implements OnInit {
   constructor() {
 console.log('PlayersComponent initialized');
 
-/*this.router.events.pipe(
-  filter(event => event instanceof NavigationEnd)
-).subscribe(()=> {
-    const isHome = this.router.url ==='/' || this.router.url ==='/home';
-    const isSearchEmpty = searchTextSignal() === '';
-    
-    if (isHome && !isSearchEmpty) {
-    console.log('Navegando a Inicio, reiniciando estado...');
-    this.selectedPlayer = null;
-  }
-});
-*/
-
-    // UNIFICADO: Controla la limpieza por búsqueda y la sincronización de datos
-    effect(() => {
-      const list = this.players();
-      const texto = searchTextSignal();
+  /*this.router.events.pipe(
+    filter(event => event instanceof NavigationEnd)
+  ).subscribe(()=> {
+      const isHome = this.router.url ==='/' || this.router.url ==='/home';
+      const isSearchEmpty = searchTextSignal() === '';
       
+      if (isHome && !isSearchEmpty) {
+      console.log('Navegando a Inicio, reiniciando estado...');
+      this.selectedPlayer = null;
+    }
+  });
+  */
 
-      // Si pulsamos Inicio (texto vacío), cerramos detalle
-      if (texto === '') {
-        this.selectedPlayer = null;
-        this.selectedPlayerId = null;
-        return;
+  effect(() => {
+    const list = this.players();
+    const texto = searchTextSignal();
+
+    if (texto === '' && !this.selectedPlayerId) {
+      this.selectedPlayer = null;
+      this.selectedPlayerId = null;
+      return;
+    }
+
+    if (this.selectedPlayerId) {
+      const updated = list.find((p: any) => p.id === this.selectedPlayerId);
+      if (updated) {
+        this.selectedPlayer = updated; 
       }
-
-      // Si hay un jugador seleccionado, lo mantenemos actualizado con la lista
-      if (this.selectedPlayerId) {
-        const updated = list.find((p: any) => p.id === this.selectedPlayerId);
-
-        if (updated) {
-        this.selectedPlayer = { ...this.selectedPlayer, ...updated };
-        }       
-      }
-});
+    }
+  }, { allowSignalWrites: true });
 
     this.jugadoresService.getJugadores().subscribe({
       next: (res) => console.log('Resultado de Firebase:', res.length),

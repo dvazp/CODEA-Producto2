@@ -14,13 +14,13 @@
   color: #e69520 !important;
 }
 
-.codea-logo {
+.syntax2-logo {
   color: #7B42F6;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.codea-logo:hover {
+.syntax2-logo:hover {
   color: #e69520;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -80,8 +80,22 @@
   color: #e69520 !important;
 }
 
-/* Eliminar la flecha por defecto de Bootstrap si quieres (opcional) */
 .filter-selector-btn::after {
   margin-left: 0.5em;
   vertical-align: 0.255em;
+}
+
+.btn-custom {
+  background-color: #7B42F6;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 5px 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #e69520;
+  color: white;
+  transform: translateY(-2px);
 }

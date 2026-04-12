@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { JugadoresService } from "../common/services/jugadoresService";
 import { MediaComponent } from '../mediaComponent/mediaComponent';
 import { toSignal } from "@angular/core/rxjs-interop";
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 interface Player {
   id?: string;
@@ -93,19 +94,16 @@ export class DetailComponent {
   }
 
   async saveChanges(player: any) {
-  if (!player.id) return;
-  try {
-    await this.jugadoresService.updateJugador(player.id, player);
-
-    this.isEditing.set(false); // Cerramos el modo edición
-
-    console.log('Cambios guardados con éxito') //alert('Cambios guardados con éxito');
-    
-  } catch (err) {
-    console.error('Error al actualizar:', err);
-    // alert('Error al guardar los cambios');
+    if (!player.id) return;
+    try {
+      await this.jugadoresService.updateJugador(player.id, player);
+      this.isEditing.set(false);
+      // el effect del componente padre debería encargarse de actualizar la lista
+      console.log('Cambios guardados con éxito');
+    } catch (err) {
+      console.error('Error al actualizar:', err);
+    }
   }
-}
 
   toggleShowEdit(): void {
     this.showEdit.set(!this.showEdit());

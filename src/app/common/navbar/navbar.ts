@@ -46,6 +46,7 @@ export class Navbar {
         crearDesdeNav(): void {
          if(!this.isHome()) {
             this.irAInicio();
+            
             }
         }
 }

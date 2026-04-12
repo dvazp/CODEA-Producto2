@@ -10,40 +10,38 @@
           </div>
           <div class="col-md-7">
             <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
-
               @if (!isEditing()) {
-              <h2 class="fw-bold">{{ p.nombre }}</h2>
+                <h2 class="fw-bold" style="color:#e69520">{{ p.nombre }}</h2>
+                <p><strong>Equipo: </strong> 
+                <span>{{p.equipo }}</span></p>
+                <p><strong>Posición: </strong>
+                <span>{{p.posicion }}</span></p>
+                <p><strong>Altura: </strong>
+                <span>{{p.altura }}</span></p>
+                <p><strong>Edad: </strong>
+                <span>{{p.edad }}</span></p>
               }@else {
-                <input [(ngModel)]="p.nombre" type="text" class="form-control mb-2 fw-bold fs-2" placeholder="Nombre">
+                <div class="search-group d-flex flex-row align-items-center gap-3">
+                  <strong style="color: #7B42F6;">Nombre: </strong>
+                  <input [(ngModel)]="p.nombre" type="text" class="form-control custom-search-input" placeholder="Nombre">
+                </div>
+                <div class="search-group d-flex align-items-center gap-3">
+                  <strong style="color: #7B42F6;">Equipo: </strong>
+                  <input [(ngModel)]="p.equipo" class="form-control custom-search-input" placeholder="Equipo">
+                </div>
+                <div class="search-group d-flex align-items-center gap-3">
+                  <strong style="color: #7B42F6;">Posición: </strong>
+                  <input [(ngModel)]="p.posicion" class="form-control custom-search-input" placeholder="Posición">
+                </div>
+                <div class="search-group d-flex align-items-center gap-3">
+                  <strong style="color: #7B42F6;">Altura: </strong>
+                  <input [(ngModel)]="p.altura" class="form-control custom-search-input" placeholder="Altura">
+                </div>
+                <div class="search-group d-flex align-items-center gap-3">
+                  <strong style="color: #7B42F6;">Edad: </strong>
+                  <input [(ngModel)]="p.edad" class="form-control custom-search-input" placeholder="Edad">
+                </div>
               }
-              <p><strong>Equipo:</strong> 
-                @if (!isEditing()) {
-                  <span>{{p.equipo }}</span>
-                } @else {
-                  <input [(ngModel)]="p.equipo" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Equipo">
-                }
-              </p>
-              <p><strong>Posición:</strong>
-                  @if (!isEditing()) {
-                    <span>{{p.posicion }}</span>
-                  } @else {
-                    <input [(ngModel)]="p.posicion" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Posición">
-                  }
-              </p>
-              <p><strong>Altura:</strong>
-                @if (!isEditing()) {
-                  <span>{{ p.altura }}</span>
-                } @else {
-                  <input [(ngModel)]="p.altura" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Altura">
-                }
-              </p>
-              <p><strong>Edad:</strong>
-                @if (!isEditing()) {
-                  <span>{{ p.edad }}</span>
-                } @else {
-                  <input [(ngModel)]="p.edad" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="Edad">
-                }
-              </p>
             </div>
           </div>
         </div>
@@ -56,35 +54,30 @@
               <p><strong>Ocupación:</strong> Director técnico deportivo</p>
               <p><strong>Objetivos:</strong> Acceder a datos de jugadores</p>
               <div class="d-flex flex-row gap-2 mt-3 align-items-stretch">
-                <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
-                  (click)="deletePlayer(p)">
-                  <span>🗑️</span>
-                  Eliminar jugador
-                </button>
-                <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
-                  (click)="isEditing.set(!isEditing())">
-                  @if(isEditing()) {
-                    <span>❌</span>
-                    <span>Cancelar edición</span>
-                  } @else {
-                    <span>✏️ </span>
-                    <span>Editar Jugador</span>
-                  }
-                </button>
-
-                @if (isEditing()){
+                @if (!isEditing()) {
+                  <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
+                    (click)="deletePlayer(p)">
+                    Eliminar jugador
+                  </button>
+                  <button class="btn btn-custom flex-fill d-flex flex-column align-items-center justify-content-center"
+                    (click)="isEditing.set(!isEditing())">
+                      Editar jugador
+                  </button>
+                } @else {
                   <button 
-                  type="button" 
-                  class="btn btn-success flex-fill d-flex flex-column align-items-center justify-content-center"
-                  (click)="saveChanges(p)">
-                <span>💾</span>
-                <span style="font-size: 0.8rem;"> Guardar cambios</span>
-                </button>
+                    type="button" 
+                    class="btn btn-custom-inversed"
+                    (click)="saveChanges(p)">
+                    Guardar cambios
+                  </button>
+                  <button class="btn btn-custom-inversed flex-fill d-flex flex-column align-items-center justify-content-center"
+                    (click)="isEditing.set(!isEditing())">
+                      Cancelar edición
+                  </button>
                 }
+              </div>
+            </div>
           </div>
-          </div>
-          </div>
-
           <div class="col-md-7">
             <div class="custom-card p-4 h-100">
               <h2 class="fw-bold" style="color: #e69520;">Promedio de la temporada</h2>
