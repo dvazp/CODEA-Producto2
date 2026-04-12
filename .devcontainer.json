@@ -1,0 +1,15 @@
+{
+  "name": "Angular Syntax2",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+  "customizations": {
+    "codesandbox": {
+      "tasks": {
+        "start": {
+          "name": "Arrancar Angular",
+          "command": "npm install --legacy-peer-deps && npm start",
+          "runAt": "onAppear"
+        }
+      }
+    }
+  }
+}

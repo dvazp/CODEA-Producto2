@@ -1,15 +1,18 @@
 {
+  // These tasks will run in order when initializing your CodeSandbox project.
   "setupTasks": [
     {
-      "name": "Preparar Node 22",
-      "command": "nvm install 22 && nvm use 22"
+      "command": "nvm install 22 && nvm use 22",
+      "name": "Preparar Node 22"
     }
   ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
   "tasks": {
     "start": {
-      "name": "Arrancar Proyecto",
-      "command": "nvm use 22 && npm start",
-      "runAt": "onDevboxStart"
+      "name": "Arrancar Angular",
+      "command": "nvm use 22 && npm install --legacy-peer-deps && npm start",
+      "runAt": "onAppear"
     }
   }
-}
+  
