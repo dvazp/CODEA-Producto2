@@ -169,4 +169,30 @@ export class DetailComponent {
     }
     return true;
   }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  handleFile(event: any, player: any, type: 'img' | 'video') {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const file = event.type === 'drop' 
+      ? event.dataTransfer?.files[0] 
+      : event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        if (type === 'img') {
+          player.img = e.target.result;
+        } else {
+          player.vid = e.target.result; 
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 }

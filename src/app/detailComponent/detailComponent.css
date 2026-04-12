@@ -207,3 +207,34 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.drop-zone {
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.drop-zone.editing-active {
+  cursor: pointer;
+}
+
+.drop-zone.editing-active:hover {
+  background-color: rgba(123, 66, 246, 0.1);
+}
+
+.edit-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.3);
+  color: white;
+  font-weight: bold;
+  pointer-events: none;
+  border-radius: 8px;
+}
+
+.editing-blur {
+  filter: grayscale(0.5);
+  opacity: 0.8;
+}

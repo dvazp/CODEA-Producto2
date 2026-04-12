@@ -5,8 +5,26 @@
       <div class="d-flex flex-column gap-3">
         <div class="row g-3">
           <div @fadeSlide class="col-md-5">
-            <img [src]="p.img" [alt]="p.nombre" class="img-fluid rounded-3 custom-height-img w-100 object-fit-cover" 
-            style="object-position: top;" >
+            <div class="position-relative drop-zone" 
+                [class.editing-active]="isEditing()"
+                (click)="isEditing() ? fileInputImg.click() : null"
+                (drop)="isEditing() ? handleFile($event, p, 'img') : null"
+                (dragover)="onDragOver($event)">
+              
+              <img [src]="p.img" [alt]="p.nombre" 
+                  class="img-fluid rounded-3 custom-height-img w-100 object-fit-cover" 
+                  [style.opacity]="isEditing() ? '0.7' : '1'"
+                  style="object-position: top;">
+              
+              @if (isEditing()) {
+                <div class="edit-overlay">
+                  <span>Cambiar foto</span>
+                </div>
+              }
+
+              <input type="file" #fileInputImg hidden accept="image/*" 
+                    (change)="handleFile($event, p, 'img')">
+            </div>
           </div>
           <div class="col-md-7">
             <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
@@ -133,9 +151,27 @@
       </div>
     </div>
     <div class="col-lg-4">
-      <app-media [player]="p" class="rounded-3 overflow-hidden d-block"></app-media>
-    </div>
+      <div class="position-relative drop-zone h-100"
+          [class.editing-active]="isEditing()"
+          (click)="isEditing() ? fileInputVideo.click() : null"
+          (drop)="isEditing() ? handleFile($event, p, 'video') : null"
+          (dragover)="onDragOver($event)">
+        
+        <app-media [player]="p" 
+                  [class.editing-blur]="isEditing()"
+                  class="rounded-3 overflow-hidden d-block">
+        </app-media>
 
+        @if (isEditing()) {
+          <div class="edit-overlay">
+            <span>🎥 Cambiar vídeo</span>
+          </div>
+        }
+
+        <input type="file" #fileInputVideo hidden accept="video/*" 
+              (change)="handleFile($event, p, 'video')">
+      </div>
+    </div>
   </div>
   } @else {
   <div class="text-center py-5">
