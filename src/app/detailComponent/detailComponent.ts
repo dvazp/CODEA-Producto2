@@ -159,4 +159,14 @@ export class DetailComponent {
       el.addEventListener('transitionend', cleanup);
     });
   }
+
+  validateNumber(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    // Permitir números (48-57) y el punto (46)
+    if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
 }

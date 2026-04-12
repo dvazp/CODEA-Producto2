@@ -6,6 +6,8 @@
               width 350ms cubic-bezier(.22,.9,.28,1),
               height 350ms cubic-bezier(.22,.9,.28,1),
               opacity 280ms ease;
+  height: max-content;
+  background-color: white;
 }
 
 .custom-card:hover {
@@ -31,13 +33,28 @@
 }
 
 .stat-row input{
-  text-align: right;
-  width: 80px !important;
+  text-align: center;
+  width: 70px;
   border-color: #7B42F6;
+}
+
+.stat-row-edit {
+  border-bottom: 2px solid rgba(123, 66, 246, 0.5);
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.stat-row-edit:focus-within {
+  border-color: #e69520; /* Color naranja al escribir */
+}
+
+.stat-row-edit span {
+  color: #7B42F6;
 }
 
 .stat-badge {
   background-color: #7B42F6;
+  border-color: #7B42F6;
   color: white;
   padding: 4px 10px;
   border-radius: 6px;
@@ -48,6 +65,11 @@
 
 .stat-badge {
   transition: transform 300ms cubic-bezier(.22,.9,.28,1), opacity 280ms ease;
+}
+
+.stat-badge-editing {
+  background-color: #e69520;
+  max-height: 5%;
 }
 
 .btn-custom {
@@ -151,7 +173,8 @@ app-media {
   grid-template-areas: "stack";
   margin-top: 1.5rem;
   min-height: 50px;
-  height: 50%;
+  height: max-content;
+  width: 100%;
 }
 
 .button-stack-item {
@@ -160,4 +183,27 @@ app-media {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.stats-stack {
+  display: grid;
+  grid-template-areas: "overlap";
+  align-items: start;
+}
+
+.stats-stack > div {
+  grid-area: overlap;
+  width: 100%;
+}
+
+
+/* para que las malditas flechas no se carguen todo el diseño en el apartado de edición */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }

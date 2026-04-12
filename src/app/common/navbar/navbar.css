@@ -8,6 +8,7 @@
   color: #7B42F6 !important;
   font-weight: bold;
   transition: color 0.3s ease;
+  height: 10% !important;
 }
 
 .navbar-nav .nav-link:hover {

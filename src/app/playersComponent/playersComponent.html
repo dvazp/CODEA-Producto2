@@ -1,55 +1,54 @@
 <div class="container-fluid px-5 h-100">
-  <div [class.with-detail]="selectedPlayer" class="players-split" style="height: max-content;">
-    <div class="players-left">
-      <div *ngIf="players().length > 0; else noPlayers"
-        [class.with-detail]="selectedPlayer" class="contenedor-grid mt-4" style="margin-bottom: 5rem;">
-        <div class="col" *ngFor="let jugador of players() | playerFilter:searchText:filterField">
-          <div class="card h-100 shadow-sm border-2 player-card-hover"
-               style="cursor: pointer; border-radius: 10px; transition: 0.2s;">
+    <div [class.with-detail]="selectedPlayer" class="players-split" style="height: max-content;">
+      <div class="players-left">
+        <div *ngIf="players().length > 0; else noPlayers"
+          [class.with-detail]="selectedPlayer" class="contenedor-grid mt-4" style="margin-bottom: 5rem;">
+          <div class="col" *ngFor="let jugador of players() | playerFilter:searchText:filterField">
+            <div class="card h-100 shadow-sm border-2 player-card-hover"
+                style="cursor: pointer; border-radius: 10px; transition: 0.2s;">
 
-            <div style="height: 200px; overflow: hidden; border-radius: 8px 8px 0 0;">
-              <img 
-                [src]="jugador.img" 
-                [alt]="jugador.nombre" 
-                class="img-fluid w-100 h-100 object-fit-cover"
-                style="object-position: top;" />
-            </div>
-
-            <div class="card-body d-flex flex-column p-4">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-title fw-bold mb-0">{{ jugador.nombre }}</h5>
-                <button class="btn btn-outline-danger btn-sm border-0" (click)="borrar(jugador.id)">
-                  🗑️
-                </button>
+              <div style="height: 200px; overflow: hidden; border-radius: 8px 8px 0 0;">
+                <img 
+                  [src]="jugador.img" 
+                  [alt]="jugador.nombre" 
+                  class="img-fluid w-100 h-100 object-fit-cover"
+                  style="object-position: top;" />
               </div>
 
-              <div class="d-flex mt-3 mt-auto">
-                <button class="btn btn-custom" (click)="selectPlayer(jugador)">
-                  Ver detalle
-                </button>
+              <div class="card-body d-flex flex-column p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h5 class="card-title fw-bold mb-0">{{ jugador.nombre }}</h5>
+                  <button class="btn btn-outline-danger btn-sm border-0" (click)="borrar(jugador.id)">
+                    🗑️
+                  </button>
+                </div>
+
+                <div class="d-flex mt-3 mt-auto">
+                  <button class="btn btn-custom" (click)="selectPlayer(jugador)">
+                    Ver detalle
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="col">
-          <div class="card h-100 shadow-sm border-2 player-card-hover"
-            style="cursor: pointer; border-radius: 10px; transition: 0.2s;"
-            (click)="toggleShowAdd()">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
-              <span style="font-size: 3rem;">+</span>
-              <h5 class="card-title fw-bold">Nuevo Jugador</h5>
+          <div class="col">
+            <div class="card h-100 shadow-sm border-2 player-card-hover"
+              style="cursor: pointer; border-radius: 10px; transition: 0.2s;"
+              (click)="toggleShowAdd()">
+              <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
+                <span style="font-size: 3rem;">+</span>
+                <h5 class="card-title fw-bold">Nuevo Jugador</h5>
+              </div>
             </div>
           </div>
-        </div>
 
+        </div>
+      </div>
+      <div class="players-right mt-4" *ngIf="selectedPlayer">
+        <app-detail [playerInput]="selectedPlayer"></app-detail>
       </div>
     </div>
-
-    <div class="players-right mt-4" *ngIf="selectedPlayer">
-      <app-detail [playerInput]="selectedPlayer"></app-detail>
-    </div>
-  </div>
 
   <app-add-player 
     *ngIf="showAdd()" 

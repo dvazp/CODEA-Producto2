@@ -1,10 +1,10 @@
-<main class="container-fluid">
+<main class="container-fluid" style="width: 70vw">
   @if (player(); as p) {
   <div class="row g-4 justify-content-center mx-4">
     <div class="col-lg-8">
       <div class="d-flex flex-column gap-3">
         <div class="row g-3">
-          <div class="col-md-5">
+          <div @fadeSlide class="col-md-5">
             <img [src]="p.img" [alt]="p.nombre" class="img-fluid rounded-3 custom-height-img w-100 object-fit-cover" 
             style="object-position: top;" >
           </div>
@@ -38,11 +38,11 @@
                   </div>
                   <div class="search-group d-flex align-items-center gap-3">
                     <strong style="color: #7B42F6;">Altura: </strong>
-                    <input [(ngModel)]="p.altura" class="form-control custom-search-input" placeholder="Altura">
+                    <input [(ngModel)]="p.altura" class="form-control custom-search-input" placeholder="Altura" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" (keypress)="validateNumber($event)">
                   </div>
                   <div class="search-group d-flex align-items-center gap-3">
                     <strong style="color: #7B42F6;">Edad: </strong>
-                    <input [(ngModel)]="p.edad" class="form-control custom-search-input" placeholder="Edad">
+                    <input [(ngModel)]="p.edad" class="form-control custom-search-input" placeholder="Edad" type="number" min="0" step="1" (keypress)="validateNumber($event)">
                   </div>
                 </div>
               }
@@ -52,9 +52,9 @@
         <div class="row g-3">
           <div class="col-md-5">
             <div class="custom-card p-4 h-100 d-flex flex-column justify-content-center">
-              <h2 class="fw-bold align-self-start">El Míster</h2>
-              <p>Haz cambios del jugador desde aquí!</p>
-              <div class="button-stack-container">
+              <h2 class="fw-bold align-self-start" style="color: #e69520">El Míster</h2>
+              <p>¡Edita datos del jugador desde aquí!</p>
+              <div class="button-stack-container mt-auto">
                 @if (!isEditing()) {
                   <div @fadeSlide class="button-stack-item flex-column gap-2">
                     <button class="btn btn-custom" style="width: 100%;"
@@ -84,12 +84,11 @@
             </div>
           </div>
           <div class="col-md-7">
-            <div class="custom-card p-4 h-100">
+            <div class="custom-card p-4" style="height: 40vh;">
               <h2 class="fw-bold" style="color: #e69520;">Promedio de la temporada</h2>
-
-              <div class="position-relative">
+              <div class="stats-stack">
                 @if(!isEditing()) {
-                  <div @fadeSlide style="position: absolute; width: 100%;">
+                  <div @fadeSlide>
                     <div class="stat-row">
                       <span>Puntos por partido (PPP)</span>
                       <span class="stat-badge">{{ p.pPP }}</span>
@@ -109,21 +108,21 @@
                   </div>
                 } @else {
                   <div @fadeSlide>
-                    <div class="stat-row">
+                    <div class="stat-row stat-row-edit">
                       <span>Puntos por partido (PPP)</span>
-                      <input [(ngModel)]="p.pPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="PPP">
+                      <input [(ngModel)]="p.pPP" class="form-control custom-search-input ml-auto" placeholder="PPP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" (keypress)="validateNumber($event)">
                     </div>
-                    <div class="stat-row">
+                    <div class="stat-row stat-row-edit">
                       <span>Rebotes por partido (RPP)</span>
-                      <input [(ngModel)]="p.rPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="RPP">
+                      <input [(ngModel)]="p.rPP" class="form-control custom-search-input ml-auto" placeholder="PPP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" placeholder="RPP" min="0" step="0.1" (keypress)="validateNumber($event)">
                     </div>
-                    <div class="stat-row">
+                    <div class="stat-row stat-row-edit">
                       <span>Asistencias por partido (APP)</span>
-                      <input [(ngModel)]="p.aPP" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="APP">
+                      <input [(ngModel)]="p.aPP" class="form-control custom-search-input ml-auto" placeholder="APP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" min="0" step="0.1" (keypress)="validateNumber($event)">
                     </div>
-                    <div class="stat-row border-0">
+                    <div class="stat-row stat-row-edit">
                       <span>Porcentaje Tiros de Campo (%TC)</span>
-                      <input [(ngModel)]="p.porcentajeTiros" type="number" class="form-control form-control-sm d-inline-block w-auto ms-2" placeholder="%TC">
+                      <input [(ngModel)]="p.porcentajeTiros" class="form-control custom-search-input ml-auto" placeholder="PPP" pattern="^\d{1,2}(\.\d{1,2})?$" title="Ingrese un número válido (ejemplo: 2.08)" placeholder="%TC" min="0" step="0.1" (keypress)="validateNumber($event)">
                     </div>
                   </div>
                 }

@@ -18,6 +18,7 @@
 
 .players-split {
   display: flex;
+  margin-top: 5%;
   gap: 1.5rem;
   align-items: flex-start;
 }
@@ -40,8 +41,8 @@
   max-height: 100%;
 }
 .players-split .players-right {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  left: 30%;
   height: 100vh;
   overflow: hidden;
 }
